@@ -1,14 +1,103 @@
-html, body {
-  padding: 0.5rem;
+:root {
+  --primary-color: #352f44;
+  --secondary-color: #faf0e6;
+  --tertiary-color: #5c5470;
+  --quaternary-color: #b9b4c7;
+  --header-bg-color: #5c5470;
+  --header-text-color: #faf0e6;
+  --button-bg-color: #1f1f1f;
+  --button-hover-bg-color: #575757;
+  --special-button-bg-color: #03a59a;
+  --special-button-hover-bg-color: #00cec0;
+  --operator-button-bg-color: #535353;
+  --operator-button-hover-bg-color: #686868;
+}
+
+html,
+body {
+  padding: 0;
   margin: 0;
   box-sizing: border-box;
+  background-color: var(--primary-color);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-html .open-dialog, body .open-dialog {
+
+header {
+  background: linear-gradient(90deg, var(--header-bg-color) 0%, var(--tertiary-color) 100%);
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .line-md--github {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Cpath stroke-dasharray='32' stroke-dashoffset='32' d='M12 4c1.67 0 2.61 0.4 3 0.5c0.53 -0.43 1.94 -1.5 3.5 -1.5c0.34 1 0.29 2.22 0 3c0.75 1 1 2 1 3.5c0 2.19 -0.48 3.58 -1.5 4.5c-1.02 0.92 -2.11 1.37 -3.5 1.5c0.65 0.54 0.5 1.87 0.5 2.5c0 0.73 0 3 0 3M12 4c-1.67 0 -2.61 0.4 -3 0.5c-0.53 -0.43 -1.94 -1.5 -3.5 -1.5c-0.34 1 -0.29 2.22 0 3c-0.75 1 -1 2 -1 3.5c0 2.19 0.48 3.58 1.5 4.5c1.02 0.92 2.11 1.37 3.5 1.5c-0.65 0.54 -0.5 1.87 -0.5 2.5c0 0.73 0 3 0 3'%3E%3Canimate fill='freeze' attributeName='stroke-dashoffset' dur='0.7s' values='32;0'/%3E%3C/path%3E%3Cpath stroke-dasharray='10' stroke-dashoffset='10' d='M9 19c-1.41 0 -2.84 -0.56 -3.69 -1.19c-0.84 -0.63 -1.09 -1.66 -2.31 -2.31'%3E%3Canimate fill='freeze' attributeName='stroke-dashoffset' begin='0.8s' dur='0.2s' values='10;0'/%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+header h1 {
+  font-size: 1.5rem;
+  color: var(--header-text-color);
+  margin: 0;
+}
+header a {
+  color: var(--header-text-color);
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+header a:hover {
+  color: var(--quaternary-color);
+}
+
+main {
+  display: flex;
+  padding: 1rem;
+}
+
+.historyBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  color: var(--header-text-color);
+  cursor: pointer;
+  transition: color 0.3s;
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+}
+.historyBtn:hover {
+  background-color: var(--button-hover-bg-color);
+}
+
+.mdi--history {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M13.5 8H12v5l4.28 2.54l.72-1.21l-3.5-2.08zM13 3a9 9 0 0 0-9 9H1l3.96 4.03L9 12H6a7 7 0 0 1 7-7a7 7 0 0 1 7 7a7 7 0 0 1-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.9 8.9 0 0 0 13 21a9 9 0 0 0 9-9a9 9 0 0 0-9-9'/%3E%3C/svg%3E");
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.open-dialog {
   border: none;
   background-color: transparent;
+  color: var(--header-text-color);
 }
-html .open-dialog .streamline--calculator-2-solid, body .open-dialog .streamline--calculator-2-solid {
+.open-dialog .streamline--calculator-2-solid {
   display: inline-block;
   width: 3rem;
   height: 3rem;
@@ -22,14 +111,17 @@ html .open-dialog .streamline--calculator-2-solid, body .open-dialog .streamline
   mask-size: 100% 100%;
   transition: 2ms;
 }
-html .open-dialog .streamline--calculator-2-solid:hover, body .open-dialog .streamline--calculator-2-solid:hover {
-  background-color: #414150;
+.open-dialog .streamline--calculator-2-solid:hover {
+  background-color: var(--quaternary-color);
 }
-html dialog, body dialog {
+
+dialog {
   border: none;
   background-color: #353535;
-  width: 20rem;
-  height: 30rem;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   border: 1px solid #03a59a;
   justify-content: space-evenly;
@@ -38,21 +130,21 @@ html dialog, body dialog {
      -moz-user-select: none;
           user-select: none;
 }
-html dialog .calculator__main, body dialog .calculator__main {
+dialog .calculator__main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   padding: 0.5rem;
 }
-html dialog::backdrop, body dialog::backdrop {
+dialog::backdrop {
   background-color: transparent;
 }
-html dialog[open], body dialog[open] {
+dialog[open] {
   display: flex;
   flex-direction: column;
 }
-html dialog .calculator__display, body dialog .calculator__display {
+dialog .calculator__display {
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -61,23 +153,22 @@ html dialog .calculator__display, body dialog .calculator__display {
   margin-bottom: 0.5rem;
   gap: 0;
 }
-html dialog .calculator__display h3, body dialog .calculator__display h3 {
+dialog .calculator__display h3 {
   margin: 0;
   font-size: xxx-large;
 }
-html dialog .calculator__header, body dialog .calculator__header {
+dialog .calculator__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
-  display: flex;
   padding: 0.2rem;
 }
-html dialog .calculator__header .calculator__header--buttons, body dialog .calculator__header .calculator__header--buttons {
+dialog .calculator__header .calculator__header--buttons {
   display: flex;
   gap: 0.5rem;
 }
-html dialog .calculator__header button, body dialog .calculator__header button {
+dialog .calculator__header button {
   border: none;
   background-color: transparent;
   color: white;
@@ -88,63 +179,52 @@ html dialog .calculator__header button, body dialog .calculator__header button {
   transition: 2ms;
   padding: 0.2rem;
 }
-html dialog .calculator__header button:hover, body dialog .calculator__header button:hover {
+dialog .calculator__header button:hover {
   background-color: #575757;
 }
-html dialog .calculator__header button:last-child:hover, body dialog .calculator__header button:last-child:hover {
+dialog .calculator__header button:last-child:hover {
   background-color: #ff4d4d;
 }
-html dialog .calculator__header .calculator__header--title, body dialog .calculator__header .calculator__header--title {
+dialog .calculator__header .calculator__header--title {
   margin: 0;
+  padding: 0 0.3rem;
 }
-html dialog .calculator__header .ic--outline-minimize, body dialog .calculator__header .ic--outline-minimize {
+dialog .calculator__header .ic--outline-minimize,
+dialog .calculator__header .material-symbols--close,
+dialog .calculator__header .mdi--window-maximize {
   display: inline-block;
   width: 1em;
   height: 1em;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+dialog .calculator__header .ic--outline-minimize {
   --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M6 19h12v2H6z'/%3E%3C/svg%3E");
-  background-color: currentColor;
   -webkit-mask-image: var(--svg);
   mask-image: var(--svg);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
 }
-html dialog .calculator__header .material-symbols--close, body dialog .calculator__header .material-symbols--close {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
+dialog .calculator__header .material-symbols--close {
   --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z'/%3E%3C/svg%3E");
-  background-color: currentColor;
-  -webkit-mask-image: var(--svg);
+  -webkit-mask-image: var --svg;
   mask-image: var(--svg);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
 }
-html dialog .calculator__header .mdi--window-maximize, body dialog .calculator__header .mdi--window-maximize {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
+dialog .calculator__header .mdi--window-maximize {
   --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M4 4h16v16H4zm2 4v10h12V8z'/%3E%3C/svg%3E");
-  background-color: currentColor;
   -webkit-mask-image: var(--svg);
   mask-image: var(--svg);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
 }
-html dialog .calculator__buttons, body dialog .calculator__buttons {
+dialog .calculator__buttons {
   display: grid;
-  grid-template-columns: repeat(4, 0fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 0.3rem;
   justify-content: center;
 }
-html dialog .calculator__buttons button, body dialog .calculator__buttons button {
+dialog .calculator__buttons button {
   border: none;
-  background-color: #1f1f1f;
+  background-color: var(--button-bg-color);
   border-radius: 0.3rem;
   height: 3.7rem;
   width: 4.6rem;
@@ -155,35 +235,18 @@ html dialog .calculator__buttons button, body dialog .calculator__buttons button
   transition: 2ms;
   color: white;
 }
-html dialog .calculator__buttons button:hover, body dialog .calculator__buttons button:hover {
-  background-color: #575757;
+dialog .calculator__buttons button:hover {
+  background-color: var(--button-hover-bg-color);
 }
-html dialog .calculator__buttons button#equals, body dialog .calculator__buttons button#equals {
-  background-color: #03a59a;
+dialog .calculator__buttons button#equals {
+  background-color: var(--special-button-bg-color);
 }
-html dialog .calculator__buttons button#equals:hover, body dialog .calculator__buttons button#equals:hover {
-  background-color: #00cec0;
+dialog .calculator__buttons button#equals:hover {
+  background-color: var(--special-button-hover-bg-color);
 }
-html dialog .calculator__buttons button#clear, html dialog .calculator__buttons button#clear-entry, html dialog .calculator__buttons button#power, html dialog .calculator__buttons button#multiply, html dialog .calculator__buttons button#subtract, html dialog .calculator__buttons button#add, html dialog .calculator__buttons button#divide, body dialog .calculator__buttons button#clear, body dialog .calculator__buttons button#clear-entry, body dialog .calculator__buttons button#power, body dialog .calculator__buttons button#multiply, body dialog .calculator__buttons button#subtract, body dialog .calculator__buttons button#add, body dialog .calculator__buttons button#divide {
-  background-color: #535353;
+dialog .calculator__buttons button#clear, dialog .calculator__buttons button#clear-entry, dialog .calculator__buttons button#power, dialog .calculator__buttons button#multiply, dialog .calculator__buttons button#subtract, dialog .calculator__buttons button#add, dialog .calculator__buttons button#divide {
+  background-color: var(--operator-button-bg-color);
 }
-html dialog .calculator__buttons button#clear:hover, html dialog .calculator__buttons button#clear-entry:hover, html dialog .calculator__buttons button#power:hover, html dialog .calculator__buttons button#multiply:hover, html dialog .calculator__buttons button#subtract:hover, html dialog .calculator__buttons button#add:hover, html dialog .calculator__buttons button#divide:hover, body dialog .calculator__buttons button#clear:hover, body dialog .calculator__buttons button#clear-entry:hover, body dialog .calculator__buttons button#power:hover, body dialog .calculator__buttons button#multiply:hover, body dialog .calculator__buttons button#subtract:hover, body dialog .calculator__buttons button#add:hover, body dialog .calculator__buttons button#divide:hover {
-  background-color: #686868;
-}
-
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+dialog .calculator__buttons button#clear:hover, dialog .calculator__buttons button#clear-entry:hover, dialog .calculator__buttons button#power:hover, dialog .calculator__buttons button#multiply:hover, dialog .calculator__buttons button#subtract:hover, dialog .calculator__buttons button#add:hover, dialog .calculator__buttons button#divide:hover {
+  background-color: var(--operator-button-hover-bg-color);
 }/*# sourceMappingURL=main.css.map */
