@@ -28,11 +28,22 @@ html .open-dialog .streamline--calculator-2-solid:hover, body .open-dialog .stre
 html dialog, body dialog {
   border: none;
   background-color: #353535;
-  width: 290px;
-  height: 465px;
+  width: 20rem;
+  height: 30rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  padding: 0 1rem;
   border: 1px solid #03a59a;
+  justify-content: space-evenly;
+  padding: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+html dialog .calculator__main, body dialog .calculator__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0.5rem;
 }
 html dialog::backdrop, body dialog::backdrop {
   background-color: transparent;
@@ -60,17 +71,31 @@ html dialog .calculator__header, body dialog .calculator__header {
   align-items: center;
   color: white;
   display: flex;
+  padding: 0.2rem;
+}
+html dialog .calculator__header .calculator__header--buttons, body dialog .calculator__header .calculator__header--buttons {
+  display: flex;
+  gap: 0.5rem;
 }
 html dialog .calculator__header button, body dialog .calculator__header button {
   border: none;
   background-color: transparent;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 2ms;
+  padding: 0.2rem;
 }
 html dialog .calculator__header button:hover, body dialog .calculator__header button:hover {
   background-color: #575757;
 }
 html dialog .calculator__header button:last-child:hover, body dialog .calculator__header button:last-child:hover {
   background-color: #ff4d4d;
+}
+html dialog .calculator__header .calculator__header--title, body dialog .calculator__header .calculator__header--title {
+  margin: 0;
 }
 html dialog .calculator__header .ic--outline-minimize, body dialog .calculator__header .ic--outline-minimize {
   display: inline-block;
@@ -144,4 +169,21 @@ html dialog .calculator__buttons button#clear, html dialog .calculator__buttons 
 }
 html dialog .calculator__buttons button#clear:hover, html dialog .calculator__buttons button#clear-entry:hover, html dialog .calculator__buttons button#power:hover, html dialog .calculator__buttons button#multiply:hover, html dialog .calculator__buttons button#subtract:hover, html dialog .calculator__buttons button#add:hover, html dialog .calculator__buttons button#divide:hover, body dialog .calculator__buttons button#clear:hover, body dialog .calculator__buttons button#clear-entry:hover, body dialog .calculator__buttons button#power:hover, body dialog .calculator__buttons button#multiply:hover, body dialog .calculator__buttons button#subtract:hover, body dialog .calculator__buttons button#add:hover, body dialog .calculator__buttons button#divide:hover {
   background-color: #686868;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }/*# sourceMappingURL=main.css.map */

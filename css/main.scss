@@ -30,11 +30,21 @@ html,body{
       dialog{
         border: none;
         background-color: #353535;
-        width: 290px;
-        height: 465px;
+        width: 20rem;
+        height: 30rem;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        padding: 0 1rem;
         border: 1px solid #03a59a;
+        justify-content: space-evenly;
+        padding: 0;
+        user-select: none;
+
+        .calculator__main{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            padding: .5rem;
+        }
 
         &::backdrop{
             background-color: transparent;
@@ -66,11 +76,23 @@ html,body{
             align-items:center;
             color: white;
             display: flex;
+            padding: .2rem;
+
+            .calculator__header--buttons{
+                display: flex;
+                gap: .5rem;
+            }
 
             button{
                 border: none;
                 background-color: transparent;
                 color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: 2ms;
+                padding: .2rem;
 
                 &:hover{
                     background-color: #575757;
@@ -79,6 +101,10 @@ html,body{
                 &:last-child:hover{
                     background-color: #ff4d4d;
                 }
+            }
+
+            .calculator__header--title{
+                margin: 0;
             }
 
             .ic--outline-minimize {
@@ -166,4 +192,23 @@ html,body{
                 }
           }
       }
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+    
 }
