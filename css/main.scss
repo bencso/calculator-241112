@@ -1,3 +1,4 @@
+//TODO: Háttér szín beállítása, alap styling stb.
 html,body{
     padding: .5rem;
     margin: 0;
@@ -55,6 +56,8 @@ html,body{
             flex-direction: column;
         }
 
+
+        //TODO: History legyen akkora defaultba mintha lenne benne szám
         .calculator__display{
             display: flex;
             flex-direction: column;

@@ -22,19 +22,15 @@ buttons.forEach(function (button) {
             case "-":
             case "*":
             case "/":
-                if (currentNumber === "") {
-                    currentNumber = "0" + value;
-                } else {
-                    currentNumber += value;
-                }
-                console.debug(currentNumber);
+                currentNumber += value;
                 history.textContent = currentNumber;
-                result.textContent = "";
+                result.textContent = "0";
                 break;
             case "CE":
-                currentNumber = "";
-                history.textContent = "";
-                result.textContent = "";
+                if(currentNumber.length>0){
+                currentNumber = currentNumber.slice(0, -1);
+                result.textContent = currentNumber;
+                }
                 break;
             case "=":
                 history.textContent = currentNumber + "=";
@@ -43,7 +39,8 @@ buttons.forEach(function (button) {
                 break;
             case "C":
                 currentNumber = "";
-                result.textContent = currentNumber;
+                history.textContent = "";
+                result.textContent = "0";
                 break;
             case "sqrt":
                 currentNumber = Math.sqrt(currentNumber);
@@ -53,11 +50,30 @@ buttons.forEach(function (button) {
                 currentNumber = Math.pow(currentNumber, 2);
                 result.textContent = currentNumber;
                 break;
+            case "sign":
+                currentNumber = -currentNumber;
+                result.textContent = currentNumber;
+                break;
             default:
+                if(currentNumber === "0" || result.textContent === "0") {
+                    result.textContent = "";
+                }
                 currentNumber += value;
-                console.table(value, currentNumber);
                 result.textContent += value;
                 break;
         }
     });
+});
+
+// Keyboard support
+document.addEventListener("keydown", function (e) {
+    let key = e.key;
+    let allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", ".", "Enter", "Backspace", "Delete"];
+    if (allowedKeys.includes(key)) {
+        if (key === "Enter") key = "=";
+        if (key === "Delete") key = "CE";
+        if (key === "Backspace") key = "C";
+        let button = document.querySelector(`[value="${key}"]`);
+        button.click();
+    }
 });
