@@ -1,6 +1,7 @@
 const dialog = document.querySelector("dialog");
 const openDialogButton = document.querySelector(".open-dialog");
 const closeDialogButton = document.querySelector(".close-dialog");
+const minimizeDialogButton = document.querySelector(".minimize-dialog");
 const history = document.querySelector(".history");
 const result = document.querySelector(".result");
 const buttons = document.querySelectorAll(".btn");
@@ -11,6 +12,8 @@ let currentOperation = "";
 
 openDialogButton.addEventListener("click", () => dialog.showModal());
 closeDialogButton.addEventListener("click", () => dialog.close());
+//TODO: Outlook minimiza stílusa alapján készüljön
+minimizeDialogButton.addEventListener("click", () => dialog.close());
 
 buttons.forEach((button) => {
   button.addEventListener("click", () =>
@@ -20,7 +23,6 @@ buttons.forEach((button) => {
 
 document.addEventListener("keydown", handleKeyDown);
 
-//TODO: Amikor 0.X-et írunk, akkkor a 0-t ne törölje ki, csak akkor törölje a 0-t, ha a 0 után egy számjegy jön.
 function handleButtonClick(value) {
   if (lastActionWasEvaluation && !isNaN(value)) {
     resetCurrentNumber();
@@ -31,16 +33,24 @@ function handleButtonClick(value) {
     case "-":
     case "*":
     case "/":
-      currentOperation += currentNumber + value;
+      if (lastActionWasEvaluation) {
+        currentOperation = result.textContent + value;
+      } else {
+        const lastChar = currentOperation.slice(-1);
+        if (lastChar !== "+" && lastChar !== "-" && lastChar !== "*" && lastChar !== "/") {
+          currentOperation += currentNumber + value;
+        }
+      }
       currentNumber = "";
       updateDisplay(currentOperation, "0");
+      lastActionWasEvaluation = false;
       break;
     case "CE":
       if (currentNumber.length > 0) {
         currentNumber = currentNumber.slice(0, -1);
         result.textContent = currentNumber;
       }
-      if(currentNumber.length === 0) {
+      if (currentNumber.length === 0) {
         result.textContent = "0";
       }
       break;
@@ -50,9 +60,16 @@ function handleButtonClick(value) {
         .toFixed(5)
         .replace(/\.?0+$/, "");
       updateDisplay(`${currentOperation}=`, evaluatedResult);
-      saveHistory();
       resetAfterEvaluation(evaluatedResult);
+      currentOperation = evaluatedResult;
+      console.table({
+        currentNumber,
+        currentOperation,
+        result,
+        evaluatedResult
+      })
       break;
+
     case "C":
       currentNumber = "";
       currentOperation = "";
@@ -65,14 +82,14 @@ function handleButtonClick(value) {
       lastActionWasEvaluation = true;
       break;
     case "sign":
-      currentNumber = -currentNumber;
+      currentNumber = -parseFloat(result.textContent);
       result.textContent = currentNumber;
       break;
     default:
       if (lastActionWasEvaluation) {
         resetCurrentNumber();
       }
-      if(currentNumber.length >= 10){
+      if (currentNumber.length >= 10) {
         return;
       }
       result.textContent = result.textContent.replace(/0/g, "") + value;
@@ -81,11 +98,12 @@ function handleButtonClick(value) {
   }
 }
 
+
 function handleKeyDown(e) {
   const keyMap = {
     Enter: "=",
-    Delete: "CE",
-    Backspace: "C",
+    Delete: "C",
+    Backspace: "CE",
   };
   const key = keyMap[e.key] || e.key;
   const allowedKeys = [
@@ -129,13 +147,13 @@ function saveHistory() {
 
 //TODO: Normális history megjelenítés
 function loadHistory() {
-    const savedHistory = JSON.parse(localStorage.getItem("history")) || [];
-    const historyList = document.createElement("ul");
-    historyList.classList.add("history-list");
-    historyList.innerHTML = savedHistory
-        .map((item) => `<li>${item.calculation}=${item.result}</li>`)
-        .join("");
-    history.appendChild(historyList);
+  const savedHistory = JSON.parse(localStorage.getItem("history")) || [];
+  const historyList = document.createElement("ul");
+  historyList.classList.add("history-list");
+  historyList.innerHTML = savedHistory
+    .map((item) => `<li>${item.calculation}=${item.result}</li>`)
+    .join("");
+  history.appendChild(historyList);
 }
 
 
@@ -159,4 +177,9 @@ function resetAfterEvaluation(evaluatedResult) {
   currentNumber = evaluatedResult;
   lastActionWasEvaluation = true;
   currentOperation = "";
+}
+
+function maximizeCalculator() {
+  const calculator = document.querySelector("dialog");
+  calculator.classList.toggle("maximized");
 }

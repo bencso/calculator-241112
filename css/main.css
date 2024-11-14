@@ -130,6 +130,44 @@ dialog {
      -moz-user-select: none;
           user-select: none;
 }
+dialog.maximized {
+  width: 100%;
+  height: 100%;
+}
+dialog.maximized .calculator__buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  height: 60%;
+}
+dialog.maximized .calculator__buttons button {
+  border: none;
+  background-color: var(--button-bg-color);
+  border-radius: 0.3rem;
+  height: 100%;
+  width: 100%;
+  font-size: 1rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 2ms;
+  color: white;
+}
+dialog.maximized .calculator__buttons button:hover {
+  background-color: var(--button-hover-bg-color);
+}
+dialog.maximized .calculator__buttons button#equals {
+  background-color: var(--special-button-bg-color);
+}
+dialog.maximized .calculator__buttons button#equals:hover {
+  background-color: var(--special-button-hover-bg-color);
+}
+dialog.maximized .calculator__buttons button#clear, dialog.maximized .calculator__buttons button#clear-entry, dialog.maximized .calculator__buttons button#power, dialog.maximized .calculator__buttons button#multiply, dialog.maximized .calculator__buttons button#subtract, dialog.maximized .calculator__buttons button#add, dialog.maximized .calculator__buttons button#divide {
+  background-color: var(--operator-button-bg-color);
+}
+dialog.maximized .calculator__buttons button#clear:hover, dialog.maximized .calculator__buttons button#clear-entry:hover, dialog.maximized .calculator__buttons button#power:hover, dialog.maximized .calculator__buttons button#multiply:hover, dialog.maximized .calculator__buttons button#subtract:hover, dialog.maximized .calculator__buttons button#add:hover, dialog.maximized .calculator__buttons button#divide:hover {
+  background-color: var(--operator-button-hover-bg-color);
+}
 dialog .calculator__main {
   display: flex;
   flex-direction: column;
