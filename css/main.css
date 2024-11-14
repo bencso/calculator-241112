@@ -13,6 +13,11 @@
   --operator-button-hover-bg-color: #686868;
 }
 
+*:hover {
+  cursor: pointer;
+  outline: none;
+}
+
 html,
 body {
   padding: 0;
@@ -118,10 +123,8 @@ main {
 dialog {
   border: none;
   background-color: #353535;
-  height: -moz-fit-content;
-  height: fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  height: 500px;
+  width: 350px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   border: 1px solid #03a59a;
   justify-content: space-evenly;
@@ -139,6 +142,7 @@ dialog.maximized .calculator__buttons {
   grid-template-columns: repeat(4, 1fr);
   justify-content: center;
   height: 60%;
+  width: 100%;
 }
 dialog.maximized .calculator__buttons button {
   border: none;
@@ -188,6 +192,7 @@ dialog .calculator__display {
   justify-content: end;
   align-items: end;
   color: white;
+  width: 100%;
   margin-bottom: 0.5rem;
   gap: 0;
 }
@@ -197,8 +202,20 @@ dialog .calculator__display h3 {
   word-wrap: break-word;
   word-break: break-all;
 }
-dialog .calculator__display small {
+dialog .calculator__display div {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  text-align: right;
+  gap: 0.5rem;
   min-height: 1rem;
+  overflow: auto;
+  max-width: 100%;
+}
+dialog .calculator__display div small {
+  font-size: 1rem;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 dialog .calculator__header {
   display: flex;
@@ -264,13 +281,15 @@ dialog .calculator__buttons {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 0.3rem;
   justify-content: center;
+  width: 100%;
+  height: 70%;
 }
 dialog .calculator__buttons button {
   border: none;
   background-color: var(--button-bg-color);
   border-radius: 0.3rem;
-  height: 3.7rem;
-  width: 4.6rem;
+  height: 100%;
+  width: 100%;
   font-size: 1rem;
   align-items: center;
   justify-content: center;
@@ -278,18 +297,18 @@ dialog .calculator__buttons button {
   transition: 2ms;
   color: white;
 }
-dialog .calculator__buttons button:hover {
+dialog .calculator__buttons button:hover, dialog .calculator__buttons button.active {
   background-color: var(--button-hover-bg-color);
 }
 dialog .calculator__buttons button#equals {
   background-color: var(--special-button-bg-color);
 }
-dialog .calculator__buttons button#equals:hover {
+dialog .calculator__buttons button#equals:hover, dialog .calculator__buttons button#equals.active {
   background-color: var(--special-button-hover-bg-color);
 }
 dialog .calculator__buttons button#clear, dialog .calculator__buttons button#clear-entry, dialog .calculator__buttons button#power, dialog .calculator__buttons button#multiply, dialog .calculator__buttons button#subtract, dialog .calculator__buttons button#add, dialog .calculator__buttons button#divide {
   background-color: var(--operator-button-bg-color);
 }
-dialog .calculator__buttons button#clear:hover, dialog .calculator__buttons button#clear-entry:hover, dialog .calculator__buttons button#power:hover, dialog .calculator__buttons button#multiply:hover, dialog .calculator__buttons button#subtract:hover, dialog .calculator__buttons button#add:hover, dialog .calculator__buttons button#divide:hover {
+dialog .calculator__buttons button#clear:hover, dialog .calculator__buttons button#clear.active, dialog .calculator__buttons button#clear-entry:hover, dialog .calculator__buttons button#clear-entry.active, dialog .calculator__buttons button#power:hover, dialog .calculator__buttons button#power.active, dialog .calculator__buttons button#multiply:hover, dialog .calculator__buttons button#multiply.active, dialog .calculator__buttons button#subtract:hover, dialog .calculator__buttons button#subtract.active, dialog .calculator__buttons button#add:hover, dialog .calculator__buttons button#add.active, dialog .calculator__buttons button#divide:hover, dialog .calculator__buttons button#divide.active {
   background-color: var(--operator-button-hover-bg-color);
 }/*# sourceMappingURL=main.css.map */

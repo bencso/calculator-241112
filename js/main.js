@@ -12,13 +12,12 @@ let currentOperation = "";
 
 openDialogButton.addEventListener("click", () => dialog.showModal());
 closeDialogButton.addEventListener("click", () => dialog.close());
-//TODO: Outlook minimiza stílusa alapján készüljön
 minimizeDialogButton.addEventListener("click", () => dialog.close());
 
 buttons.forEach((button) => {
-  button.addEventListener("click", () => {
-    handleButtonClick(button.value);
-  });
+  button.addEventListener("click", () =>
+    handleButtonClick(button.getAttribute("value"))
+  );
 });
 
 document.addEventListener("keydown", handleKeyDown);
@@ -26,6 +25,7 @@ document.addEventListener("keydown", handleKeyDown);
 function handleButtonClick(value) {
   if (lastActionWasEvaluation && !isNaN(value)) {
     resetCurrentNumber();
+    currentOperation = "";
   }
 
   switch (value) {
@@ -33,83 +33,146 @@ function handleButtonClick(value) {
     case "-":
     case "*":
     case "/":
-      if (lastActionWasEvaluation) {
-        currentOperation = result.textContent + value;
-      } else {
-        const lastChar = currentOperation.slice(-1);
-        if (
-          lastChar !== "+" &&
-          lastChar !== "-" &&
-          lastChar !== "*" &&
-          lastChar !== "/"
-        ) {
-          currentOperation += currentNumber + value;
-        }
-      }
-      currentNumber = "";
-      updateDisplay(currentOperation, "0");
-      lastActionWasEvaluation = false;
+      handleOperator(value);
       break;
     case "CE":
-      if (currentNumber.length > 0) {
-        currentNumber = currentNumber.slice(0, -1);
-        result.textContent = currentNumber;
-      }
-      if (currentNumber.length === 0) {
-        result.textContent = "0";
-      }
+      handleClearEntry();
       break;
     case "=":
-      currentOperation += currentNumber;
-      const evaluatedResult = eval(currentOperation)
-        .toFixed(5)
-        .replace(/\b0+(\d)/g, "$1");
-      updateDisplay(`${currentOperation}=`, evaluatedResult);
-      resetAfterEvaluation(evaluatedResult);
-      currentOperation = evaluatedResult;
-      console.table({
-        currentNumber,
-        currentOperation,
-        result,
-        evaluatedResult,
-      });
+      handleEvaluation();
       break;
-
     case "C":
-      currentNumber = "";
-      currentOperation = "";
-      updateDisplay("", "0");
+      handleClear();
       break;
     case "pow":
-      currentNumber = Math.pow(currentNumber, 2);
-      updateDisplay(`${currentNumber}^2=`, currentNumber);
-      saveHistory();
-      lastActionWasEvaluation = true;
+      handlePower();
+      break;
+    case ".":
+      if (currentNumber === "") {
+        currentNumber = "0.";
+      } else if (!currentNumber.includes(".")) {
+        currentNumber += value;
+      }
+      result.textContent = currentNumber;
+      adjustFontSize();
       break;
     case "sign":
-      currentNumber = -parseFloat(result.textContent);
-      result.textContent = currentNumber;
+      handleSignChange();
       break;
     default:
-      if (lastActionWasEvaluation) {
-        resetCurrentNumber();
-      }
-      if (currentNumber.length >= 10) {
-        return;
-      }
-      result.textContent = result.textContent.replace(/^0+(?=\d)/, "") + value;
-      currentNumber += value;
+      handleNumberInput(value);
       break;
   }
 }
 
+function handleOperator(operator) {
+  if (currentNumber === "" && currentOperation === "") return;
+  if (lastActionWasEvaluation) {
+    currentOperation = result.textContent + operator;
+  } else {
+    const lastChar = currentOperation.slice(-1);
+    if (!["+", "-", "*", "/"].includes(lastChar)) {
+      currentOperation += currentNumber + operator;
+    } else if (currentNumber !== "") {
+      currentOperation += currentNumber;
+      currentOperation = eval(currentOperation).toString() + operator;
+    } else if (lastChar !== operator) {
+      currentOperation = currentOperation.slice(0, -1) + operator;
+    }
+  }
+  updateDisplay(currentOperation, currentNumber);
+  resetCurrentNumber(currentNumber);
+  lastActionWasEvaluation = false;
+}
+
+function handleClearEntry() {
+  if (currentNumber.length > 0) {
+    currentNumber = currentNumber.slice(0, -1);
+    if (currentNumber === "") currentNumber = "0";
+    result.textContent = currentNumber;
+    adjustFontSize();
+  }
+}
+
+function handleEvaluation() {
+  if (currentOperation && currentNumber) {
+    currentOperation += currentNumber;
+    let evaluatedResult = eval(currentOperation);
+    //TODO: Legyen 5 tizedesjegyig kerekítve az eredmény? Vagy annyit irassunk ki ammenyi kifér a display-re?
+    evaluatedResult = Number.isInteger(evaluatedResult)
+      ? evaluatedResult.toString()
+      : evaluatedResult.toFixed(5).replace(/\b0+(\d)/g, "$1");
+    updateDisplay(`${currentOperation}=`, evaluatedResult);
+    resetAfterEvaluation(evaluatedResult);
+    currentOperation = "";
+    currentNumber = evaluatedResult;
+    adjustFontSize();
+    saveHistory();
+  }
+}
+
+function handleClear() {
+  resetCurrentNumber();
+  currentOperation = "";
+  updateDisplay("", "0");
+  result.textContent = "0";
+  adjustFontSize();
+}
+
+function handlePower() {
+  currentNumber = Math.pow(parseFloat(result.textContent), 2).toString();
+  history.textContent = `${result.textContent}^2=`;
+  result.textContent = currentNumber;
+  adjustFontSize();
+}
+
+function handleSignChange() {
+  currentNumber = -parseFloat(result.textContent);
+  result.textContent = currentNumber;
+  adjustFontSize();
+}
+
+function updateDisplay(historyText, resultText) {
+  history.textContent = historyText.replace(/\b0+(\d)/g, "$1");
+  if (!resultText.includes(".")) {
+    result.textContent = resultText.replace(/0+/, "");
+  } else {
+    result.textContent = resultText;
+  }
+  adjustFontSize();
+}
+
+function handleNumberInput(value) {
+  if (lastActionWasEvaluation) {
+    resetCurrentNumber();
+    currentOperation = "";
+    lastActionWasEvaluation = false;
+  }
+  if (currentNumber.length < 30) {
+    if (currentNumber === "0") {
+      currentNumber = value;
+    } else {
+      currentNumber += value;
+    }
+    result.textContent = currentNumber;
+    adjustFontSize();
+  }
+}
+
 function handleKeyDown(e) {
+  e.preventDefault();
   const keyMap = {
     Enter: "=",
     Backspace: "CE",
-    Escape: "C",
+    Delete: "C",
+    "+": "+",
+    "-": "-",
+    "*": "*",
+    "/": "/",
+    ".": ".",
+    ",": ".",
   };
-  const key = keyMap[e.key] || e.key.toLowerCase();
+  const key = e.key in keyMap ? keyMap[e.key] : e.key;
   const allowedKeys = [
     "0",
     "1",
@@ -127,12 +190,14 @@ function handleKeyDown(e) {
     "/",
     ".",
     "=",
+    "CE",
+    "C",
   ];
   if (allowedKeys.includes(key)) {
     const button = document.querySelector(`[value="${key}"]`);
     if (button) {
       button.classList.add("active");
-      setTimeout(() => button.classList.remove("active"), 200);
+      setTimeout(() => button.classList.remove("active"), 100);
       button.click();
     }
   }
@@ -140,20 +205,17 @@ function handleKeyDown(e) {
 
 function saveHistory() {
   let savedHistory = JSON.parse(localStorage.getItem("history")) || [];
-  if (savedHistory.length >= 5) {
-    savedHistory.pop();
-  }
+  if (savedHistory.length >= 5) savedHistory.pop();
   const formattedCalculation = history.textContent
     .split("=")[0]
     .replace(/\b0+(\d)/g, "$1");
-      savedHistory.unshift({
+  savedHistory.unshift({
     calculation: formattedCalculation,
     result: result.textContent,
   });
   localStorage.setItem("history", JSON.stringify(savedHistory));
 }
 
-//TODO: Normális history megjelenítés
 function loadHistory() {
   const savedHistory = JSON.parse(localStorage.getItem("history")) || [];
   const historyList = document.createElement("ul");
@@ -172,12 +234,13 @@ function clearHistory() {
 function updateDisplay(historyText, resultText) {
   history.textContent = historyText.replace(/\b0+(\d)/g, "$1");
   result.textContent = resultText.replace(/^0+/, "");
+  adjustFontSize();
 }
 
 function resetCurrentNumber() {
   currentNumber = "";
-  result.textContent = "";
-  lastActionWasEvaluation = false;
+  result.textContent = "0";
+  adjustFontSize();
 }
 
 function resetAfterEvaluation(evaluatedResult) {
@@ -189,4 +252,17 @@ function resetAfterEvaluation(evaluatedResult) {
 function maximizeCalculator() {
   const calculator = document.querySelector("dialog");
   calculator.classList.toggle("maximized");
+}
+
+function adjustFontSize() {
+  const length = result.textContent.length;
+  if (length <= 4) {
+    result.style.fontSize = "3rem";
+  } else if (length > 4 && length <= 8) {
+    result.style.fontSize = "2rem";
+  } else if (length > 8 && length <= 12) {
+    result.style.fontSize = "1.5rem";
+  } else {
+    result.style.fontSize = "1rem";
+  }
 }
