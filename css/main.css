@@ -157,6 +157,9 @@ dialog .calculator__display h3 {
   margin: 0;
   font-size: xxx-large;
 }
+dialog .calculator__display small {
+  min-height: 1rem;
+}
 dialog .calculator__header {
   display: flex;
   justify-content: space-between;

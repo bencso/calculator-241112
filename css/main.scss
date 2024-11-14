@@ -167,6 +167,10 @@ dialog {
       margin: 0;
       font-size: xxx-large;
     }
+
+    small{
+      min-height: 1rem;
+    }
   }
 
   .calculator__header {

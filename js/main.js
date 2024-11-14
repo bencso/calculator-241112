@@ -40,6 +40,9 @@ function handleButtonClick(value) {
         currentNumber = currentNumber.slice(0, -1);
         result.textContent = currentNumber;
       }
+      if(currentNumber.length === 0) {
+        result.textContent = "0";
+      }
       break;
     case "=":
       currentOperation += currentNumber;
@@ -68,6 +71,9 @@ function handleButtonClick(value) {
     default:
       if (lastActionWasEvaluation) {
         resetCurrentNumber();
+      }
+      if(currentNumber.length >= 10){
+        return;
       }
       result.textContent = result.textContent.replace(/0/g, "") + value;
       currentNumber += value;
