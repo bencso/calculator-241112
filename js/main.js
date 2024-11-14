@@ -16,9 +16,9 @@ closeDialogButton.addEventListener("click", () => dialog.close());
 minimizeDialogButton.addEventListener("click", () => dialog.close());
 
 buttons.forEach((button) => {
-  button.addEventListener("click", () =>
-    handleButtonClick(button.getAttribute("value"))
-  );
+  button.addEventListener("click", () => {
+    handleButtonClick(button.value);
+  });
 });
 
 document.addEventListener("keydown", handleKeyDown);
@@ -37,7 +37,12 @@ function handleButtonClick(value) {
         currentOperation = result.textContent + value;
       } else {
         const lastChar = currentOperation.slice(-1);
-        if (lastChar !== "+" && lastChar !== "-" && lastChar !== "*" && lastChar !== "/") {
+        if (
+          lastChar !== "+" &&
+          lastChar !== "-" &&
+          lastChar !== "*" &&
+          lastChar !== "/"
+        ) {
           currentOperation += currentNumber + value;
         }
       }
@@ -58,7 +63,7 @@ function handleButtonClick(value) {
       currentOperation += currentNumber;
       const evaluatedResult = eval(currentOperation)
         .toFixed(5)
-        .replace(/\.?0+$/, "");
+        .replace(/\b0+(\d)/g, "$1");
       updateDisplay(`${currentOperation}=`, evaluatedResult);
       resetAfterEvaluation(evaluatedResult);
       currentOperation = evaluatedResult;
@@ -66,8 +71,8 @@ function handleButtonClick(value) {
         currentNumber,
         currentOperation,
         result,
-        evaluatedResult
-      })
+        evaluatedResult,
+      });
       break;
 
     case "C":
@@ -92,20 +97,19 @@ function handleButtonClick(value) {
       if (currentNumber.length >= 10) {
         return;
       }
-      result.textContent = result.textContent.replace(/0/g, "") + value;
+      result.textContent = result.textContent.replace(/^0+(?=\d)/, "") + value;
       currentNumber += value;
       break;
   }
 }
 
-
 function handleKeyDown(e) {
   const keyMap = {
     Enter: "=",
-    Delete: "C",
     Backspace: "CE",
+    Escape: "C",
   };
-  const key = keyMap[e.key] || e.key;
+  const key = keyMap[e.key] || e.key.toLowerCase();
   const allowedKeys = [
     "0",
     "1",
@@ -125,7 +129,12 @@ function handleKeyDown(e) {
     "=",
   ];
   if (allowedKeys.includes(key)) {
-    document.querySelector(`[value="${key}"]`).click();
+    const button = document.querySelector(`[value="${key}"]`);
+    if (button) {
+      button.classList.add("active");
+      setTimeout(() => button.classList.remove("active"), 200);
+      button.click();
+    }
   }
 }
 
@@ -137,13 +146,12 @@ function saveHistory() {
   const formattedCalculation = history.textContent
     .split("=")[0]
     .replace(/\b0+(\d)/g, "$1");
-  savedHistory.unshift({
+      savedHistory.unshift({
     calculation: formattedCalculation,
     result: result.textContent,
   });
   localStorage.setItem("history", JSON.stringify(savedHistory));
 }
-
 
 //TODO: Normális history megjelenítés
 function loadHistory() {
@@ -156,7 +164,6 @@ function loadHistory() {
   history.appendChild(historyList);
 }
 
-
 function clearHistory() {
   localStorage.removeItem("history");
   history.innerHTML = "";
@@ -164,7 +171,7 @@ function clearHistory() {
 
 function updateDisplay(historyText, resultText) {
   history.textContent = historyText.replace(/\b0+(\d)/g, "$1");
-  result.textContent = resultText;
+  result.textContent = resultText.replace(/^0+/, "");
 }
 
 function resetCurrentNumber() {

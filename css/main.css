@@ -153,13 +153,13 @@ dialog.maximized .calculator__buttons button {
   transition: 2ms;
   color: white;
 }
-dialog.maximized .calculator__buttons button:hover {
+dialog.maximized .calculator__buttons button:hover, dialog.maximized .calculator__buttons button.active {
   background-color: var(--button-hover-bg-color);
 }
 dialog.maximized .calculator__buttons button#equals {
   background-color: var(--special-button-bg-color);
 }
-dialog.maximized .calculator__buttons button#equals:hover {
+dialog.maximized .calculator__buttons button#equals:hover, dialog.maximized .calculator__buttons button#equals.active {
   background-color: var(--special-button-hover-bg-color);
 }
 dialog.maximized .calculator__buttons button#clear, dialog.maximized .calculator__buttons button#clear-entry, dialog.maximized .calculator__buttons button#power, dialog.maximized .calculator__buttons button#multiply, dialog.maximized .calculator__buttons button#subtract, dialog.maximized .calculator__buttons button#add, dialog.maximized .calculator__buttons button#divide {
@@ -194,6 +194,8 @@ dialog .calculator__display {
 dialog .calculator__display h3 {
   margin: 0;
   font-size: xxx-large;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 dialog .calculator__display small {
   min-height: 1rem;
