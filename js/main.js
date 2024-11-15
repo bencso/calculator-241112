@@ -252,17 +252,18 @@ function resetAfterEvaluation(evaluatedResult) {
 function maximizeCalculator() {
   const calculator = document.querySelector("dialog");
   calculator.classList.toggle("maximized");
+  adjustFontSize();
 }
 
 function adjustFontSize() {
   const length = result.textContent.length;
-  if (length <= 4) {
-    result.style.fontSize = "3rem";
-  } else if (length > 4 && length <= 8) {
-    result.style.fontSize = "2rem";
-  } else if (length > 8 && length <= 12) {
-    result.style.fontSize = "1.5rem";
-  } else {
-    result.style.fontSize = "1rem";
-  }
+  const isMax = document.querySelector("dialog").classList.contains("maximized");
+  if (length <= 4 && !isMax) result.style.fontSize = "3rem";
+  else if (length > 4 && length <= 8 && !isMax) result.style.fontSize = "2rem";
+  else if (length > 8 && length <= 12 && !isMax) result.style.fontSize = "1.5rem";
+  else if (length <= 13 && !isMax) result.style.fontSize = "1rem";
+  else if (length <= 4) result.style.fontSize = "4rem";
+  else if (length > 4 && length <= 8) result.style.fontSize = "3rem";
+  else if (length > 8 && length <= 12) result.style.fontSize = "2.5rem";
+  else if (length <= 13) result.style.fontSize = "2rem";
 }
