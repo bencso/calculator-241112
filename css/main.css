@@ -298,4 +298,14 @@ dialog .calculator__buttons button#clear, dialog .calculator__buttons button#cle
 }
 dialog .calculator__buttons button#clear:hover, dialog .calculator__buttons button#clear.active, dialog .calculator__buttons button#clear-entry:hover, dialog .calculator__buttons button#clear-entry.active, dialog .calculator__buttons button#power:hover, dialog .calculator__buttons button#power.active, dialog .calculator__buttons button#multiply:hover, dialog .calculator__buttons button#multiply.active, dialog .calculator__buttons button#subtract:hover, dialog .calculator__buttons button#subtract.active, dialog .calculator__buttons button#add:hover, dialog .calculator__buttons button#add.active, dialog .calculator__buttons button#divide:hover, dialog .calculator__buttons button#divide.active {
   background-color: var(--operator-button-hover-bg-color);
+}
+
+.minimazed-div {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  padding: 0.5rem 2rem;
+  border: 1px solid #03a59a;
+  background-color: #353535;
+  color: white;
 }/*# sourceMappingURL=main.css.map */
