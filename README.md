@@ -1,1 +1,1 @@
-# This calculator looks like the windows calculator
+This calculator looks like the windows calculator
